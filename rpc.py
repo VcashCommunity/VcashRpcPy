@@ -54,6 +54,18 @@ def rpc_getnewaddress():
     return response
 
 
+def rpc_listsinceblock(hash):
+    # listtransactions
+    payload = {
+        "method": "listsinceblock",
+        "params": [hash],
+        "jsonrpc": "2.0",
+        "id": 1,
+    }
+    response = call_rpc(payload)
+    return response
+
+
 def rpc_listtransactions(account="*", count_tx="80", from_tx="0"):
     # listtransactions
     payload = {
@@ -173,21 +185,18 @@ def check_received(address):
 
 
 if __name__ == '__main__':
+    import time
     # Demo, need a running vcash daemon
     print(repr(rpc_getinfo()))
     print(repr(rpc_getbalance()))
     print(repr(rpc_listreceivedbyaddress()))
-    print(repr(rpc_listtransactions(count_tx="20", from_tx="10")))
+    print(repr(rpc_listtransactions(count_tx="100", from_tx="0")))
     print(repr(rpc_getdifficulty()))
     print(repr(rpc_getblockcount()))
 
-    # Just some random transaction example from explorer
-    print(repr(rpc_gettransaction('ab95508f69d8a1b92b6ad503f9f37ab7f5e93faeb6ca43bbb4998df246a32d43')))
-
-    import time
     start = time.time()
     # run your code
-    print(repr(check_received('SOME_XVC_ADDRESS')))
+    print(repr(check_received('VdSRFZvbbPmeNTVB5od6V9o8v4C9NwaH3N')))
     end = time.time()
     elapsed = end - start
     print("%.3f" % elapsed)
